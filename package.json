@@ -4,7 +4,10 @@
   "description": "User authentication and organization management system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "build": "echo 'Starting build process...' && npm install && echo 'Build process completed.'"
   },
   "repository": {
     "type": "git",

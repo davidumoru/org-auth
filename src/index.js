@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth.routes");
 const organisationRoutes = require("./routes/organisation.routes");
-const db = require("./models");
+const db = require("./models/sequelize.models");
 
 const app = express();
 

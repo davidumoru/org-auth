@@ -5,7 +5,7 @@ const {
   getOrganisations,
   createOrganisation,
   addUserToOrganisation,
-} = require("../controllers/organisationController");
+} = require("../controllers/organisation.controllers");
 
 router.get("/", authenticateToken, getOrganisations);
 router.post("/", authenticateToken, createOrganisation);

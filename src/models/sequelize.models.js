@@ -9,8 +9,8 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require("./user")(sequelize, Sequelize);
-db.Organisation = require("./organisation")(sequelize, Sequelize);
+db.User = require("./user.models")(sequelize, Sequelize);
+db.Organisation = require("./organisation.models")(sequelize, Sequelize);
 
 // Define associations
 db.User.belongsToMany(db.Organisation, { through: "UserOrganisations" });

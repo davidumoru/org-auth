@@ -22,6 +22,50 @@ const getOrganisations = async (req, res) => {
   }
 };
 
+const getOrganisationById = async (req, res) => {
+  const { orgId } = req.params;
+
+  try {
+    const organisation = await Organisation.findByPk(orgId);
+
+    if (!organisation) {
+      return res.status(404).json({
+        status: "Not Found",
+        message: "Organisation not found",
+        statusCode: 404,
+      });
+    }
+
+    const userOrganisations = await req.user.getOrganisations({
+      where: { orgId },
+    });
+
+    if (!userOrganisations.length) {
+      return res.status(403).json({
+        status: "Forbidden",
+        message: "You do not have access to this organisation",
+        statusCode: 403,
+      });
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Organisation retrieved successfully",
+      data: {
+        orgId: organisation.orgId,
+        name: organisation.name,
+        description: organisation.description,
+      },
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "Bad request",
+      message: "Client error",
+      statusCode: 400,
+    });
+  }
+};
+
 const createOrganisation = async (req, res) => {
   const { name, description } = req.body;
 
@@ -91,6 +135,7 @@ const addUserToOrganisation = async (req, res) => {
 
 module.exports = {
   getOrganisations,
+  getOrganisationById,
   createOrganisation,
   addUserToOrganisation,
 };

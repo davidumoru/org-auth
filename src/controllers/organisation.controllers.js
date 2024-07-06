@@ -118,6 +118,21 @@ const addUserToOrganisation = async (req, res) => {
       });
     }
 
+    const userOrganisations = await req.user.getOrganisations({
+      where: { orgId: orgId },
+    });
+
+    if (
+      userOrganisations.length === 0 &&
+      organisation.createdBy !== req.user.userId
+    ) {
+      return res.status(403).json({
+        status: "Forbidden",
+        message: "You do not have permission to add users to this organisation",
+        statusCode: 403,
+      });
+    }
+
     await organisation.addUser(user);
 
     res.status(200).json({
@@ -125,6 +140,7 @@ const addUserToOrganisation = async (req, res) => {
       message: "User added to organisation successfully",
     });
   } catch (error) {
+    console.error("Error adding user to organisation:", error);
     res.status(400).json({
       status: "Bad request",
       message: "Client error",

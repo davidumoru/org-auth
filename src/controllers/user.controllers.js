@@ -15,12 +15,12 @@ const getUserById = async (req, res) => {
       });
     }
 
-    if (req.user.id === id) {
+    if (req.user.userId === id) {
       return res.status(200).json({
         status: "success",
         message: "User retrieved successfully",
         data: {
-          userId: user.id,
+          userId: user.userId,
           firstName: user.firstName,
           lastName: user.lastName,
           email: user.email,
@@ -49,7 +49,7 @@ const getUserById = async (req, res) => {
       status: "success",
       message: "User retrieved successfully",
       data: {
-        userId: user.id,
+        userId: user.userId,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,

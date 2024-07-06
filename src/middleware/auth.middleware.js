@@ -14,8 +14,21 @@ const authenticateToken = (req, res, next) => {
       return res.sendStatus(403);
     }
 
-    req.user = await User.findByPk(user.userId);
-    next();
+    try {
+      if (!user.userId) {
+        return res.status(400).json({ error: "Invalid user ID format" });
+      }
+
+      req.user = await User.findOne({ where: { userId: user.userId } });
+
+      if (!req.user) {
+        return res.sendStatus(404);
+      }
+
+      next();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   });
 };
 

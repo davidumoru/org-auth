@@ -19,7 +19,15 @@ db.User = require("./user.models")(sequelize, Sequelize);
 db.Organisation = require("./organisation.models")(sequelize, Sequelize);
 
 // Define associations
-db.User.belongsToMany(db.Organisation, { through: "UserOrganisations" });
-db.Organisation.belongsToMany(db.User, { through: "UserOrganisations" });
+db.User.belongsToMany(db.Organisation, {
+  through: "UserOrganisations",
+  foreignKey: "userId",
+  otherKey: "orgId",
+});
+db.Organisation.belongsToMany(db.User, {
+  through: "UserOrganisations",
+  foreignKey: "orgId",
+  otherKey: "userId",
+});
 
 module.exports = db;

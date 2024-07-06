@@ -19,7 +19,7 @@ db.sequelize
   .authenticate()
   .then(() => {
     console.log("Database connected successfully");
-    return db.sequelize.sync();
+    return db.sequelize.sync({ alter: true });
   })
   .then(() => {
     app.listen(PORT, () => {

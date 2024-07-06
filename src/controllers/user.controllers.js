@@ -29,12 +29,19 @@ const getUserById = async (req, res) => {
       });
     }
 
-    // Check if the user is in the same organisation
+    // Get the authenticated user's organisations
     const userOrganisations = await req.user.getOrganisations();
-    const targetUserOrganisations = await user.getOrganisations();
+    const userOrganisationIds = userOrganisations.map((org) => org.orgId);
 
-    const commonOrganisations = userOrganisations.filter((org) =>
-      targetUserOrganisations.some((targetOrg) => targetOrg.id === org.id)
+    // Get the target user's organisations
+    const targetUserOrganisations = await user.getOrganisations();
+    const targetUserOrganisationIds = targetUserOrganisations.map(
+      (org) => org.orgId
+    );
+
+    // Check for common organisations
+    const commonOrganisations = userOrganisationIds.filter((orgId) =>
+      targetUserOrganisationIds.includes(orgId)
     );
 
     if (commonOrganisations.length === 0) {
@@ -57,13 +64,15 @@ const getUserById = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(400).json({
-      status: "Bad request",
-      message: "Client error",
-      statusCode: 400,
+    console.error("Error retrieving user:", error);
+    res.status(500).json({
+      status: "Internal Server Error",
+      message: "An error occurred while processing your request",
+      statusCode: 500,
     });
   }
 };
+
 module.exports = {
   getUserById,
 };

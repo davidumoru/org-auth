@@ -9,7 +9,7 @@ const {
 } = require("../controllers/organisation.controllers");
 
 router.get("/", authenticateToken, getOrganisations);
-router.get("/:orgId", isAuthenticated, getOrganisationById);
+router.get("/:orgId", authenticateToken, getOrganisationById);
 router.post("/", authenticateToken, createOrganisation);
 router.post("/:orgId/users", authenticateToken, addUserToOrganisation);
 

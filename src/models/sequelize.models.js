@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const pg = require("pg");
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -7,6 +8,7 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: "postgres",
+    dialectModule: pg,
     logging: false,
     dialectOptions: {
       ssl: {

@@ -16,6 +16,10 @@ app.use("/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/organisations", organisationRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Hello, welcome to my app!');
+});
+
 const PORT = process.env.PORT || 5006;
 db.sequelize
   .authenticate()
